@@ -1,0 +1,181 @@
+.nadon-page {
+  overflow: hidden;
+  background: #ffffff;
+  color: #24231f;
+  font-family: "Cormorant Garamond", Georgia, serif;
+}
+
+.nadon-canvas {
+  position: relative;
+  width: var(--nadon-canvas);
+  max-width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.nadon-header {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 96px;
+  background: rgba(252, 250, 247, 0.97);
+  border-bottom: 1px solid rgba(36, 35, 31, 0.08);
+  transition: background 260ms ease, border-color 260ms ease, color 260ms ease;
+}
+
+.nadon-header--hero {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+}
+
+.nadon-header--hero[data-over-hero="true"] {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+}
+
+.nadon-header--hero[data-over-hero="false"] {
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom-color: rgba(22, 20, 18, 0.16);
+}
+
+.nadon-header--hero .nadon-logo,
+.nadon-header--hero .nadon-nav,
+.nadon-header--hero[data-over-hero="true"] .nadon-logo,
+.nadon-header--hero[data-over-hero="true"] .nadon-nav {
+  color: #ffffff;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.28);
+}
+
+.nadon-header--hero[data-over-hero="true"] .nadon-header-canvas {
+  justify-content: center;
+}
+
+.nadon-header--hero[data-over-hero="true"] .nadon-logo {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nadon-header--hero[data-over-hero="true"] .nadon-nav {
+  flex: 0 0 auto;
+  mix-blend-mode: normal;
+}
+
+.nadon-header--hero[data-over-hero="true"] .nadon-nav-canvas {
+  justify-content: center;
+}
+
+.nadon-header--hero[data-over-hero="false"] .nadon-logo {
+  color: #2d2924;
+}
+
+.nadon-header--hero[data-over-hero="false"] .nadon-nav {
+  color: #3c342d;
+}
+
+.nadon-header-canvas {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  padding: 0 var(--nadon-wide-gutter);
+}
+
+.nadon-header-spacer {
+  height: 96px;
+  background: #ffffff;
+}
+
+.nadon-logo {
+  position: relative;
+  top: auto;
+  left: auto;
+  display: flex;
+  flex: 0 0 auto;
+  width: auto;
+  min-height: 28px;
+  transform: none;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #2d2924;
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.nadon-nav {
+  flex: 0 1 auto;
+  height: auto;
+  background: transparent;
+  color: #3c342d;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.nadon-nav-canvas {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(18px, 2.3vw, 36px);
+  padding-top: 0;
+}
+
+.nadon-nav-canvas a {
+  position: relative;
+  width: auto;
+  height: auto;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.nadon-nav a,
+.nadon-footer a,
+.nadon-about-copy a {
+  position: relative;
+}
+
+.nadon-nav a::after,
+.nadon-footer a::after,
+.nadon-about-copy a::after {
+  position: absolute;
+  right: 18px;
+  bottom: -7px;
+  left: 18px;
+  height: 1px;
+  background: currentColor;
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 220ms ease;
+}
+
+.nadon-nav a:hover::after,
+.nadon-nav a[aria-current="page"]::after,
+.nadon-footer a:hover::after,
+.nadon-footer a[aria-current="page"]::after,
+.nadon-about-copy a:hover::after {
+  transform: scaleX(1);
+}
+
+.nadon-nav .nadon-nav-canvas a {
+  position: relative;
+}
+
+.nadon-mobile-menu {
+  display: none;
+}

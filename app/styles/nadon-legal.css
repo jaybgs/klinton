@@ -1,0 +1,21 @@
+.nadon-legal-page {
+  width: 760px;
+  max-width: calc(100% - (var(--nadon-compact-gutter) * 2));
+  margin: 0 auto;
+  padding: 96px 0 130px;
+}
+
+.nadon-legal-page h1 {
+  margin: 0 0 52px;
+  font-size: 70px;
+  font-weight: 300;
+  line-height: 0.95;
+}
+
+.nadon-legal-page p:not(.nadon-label) {
+  margin: 0 0 24px;
+  font-family: "Spectral", Georgia, serif;
+  font-size: 15px;
+  font-weight: 200;
+  line-height: 1.9;
+}

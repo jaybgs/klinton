@@ -1,0 +1,609 @@
+.nadon-home-hero {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  background: #19191a;
+}
+
+.nadon-home-hero-track,
+.nadon-home-hero-image {
+  position: absolute;
+  inset: 0;
+}
+
+.nadon-home-hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.02);
+  transition: opacity 900ms ease, transform 5200ms ease;
+}
+
+.nadon-home-hero-image[data-active="true"] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.nadon-home-hero::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0.06) 42%, rgba(0, 0, 0, 0.3));
+  content: "";
+  pointer-events: none;
+}
+
+.nadon-home-hero-copy {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  gap: 18px;
+  width: min(820px, calc(100% - (var(--nadon-wide-gutter) * 2)));
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  text-align: center;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.28);
+}
+
+.nadon-home-hero-copy p {
+  margin: 0;
+  font-family: "amoretsanswebfont", "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(42px, 8vw, 96px);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0;
+  text-transform: lowercase;
+}
+
+.nadon-home-hero-copy h1 {
+  margin: 0;
+  font-family: "Spectral", Georgia, serif;
+  font-size: clamp(13px, 1.45vw, 20px);
+  font-weight: 200;
+  line-height: 1.55;
+  text-transform: none;
+}
+
+.nadon-home-hero-arrow {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  display: grid;
+  width: 88px;
+  height: 40px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.nadon-home-hero-arrow:hover {
+  transform: translateY(-50%) scale(1.04);
+}
+
+.nadon-home-hero-arrow svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.35;
+}
+
+.nadon-home-hero-arrow-left {
+  left: var(--nadon-wide-gutter);
+}
+
+.nadon-home-hero-arrow-right {
+  right: var(--nadon-wide-gutter);
+}
+
+.nadon-home-quote {
+  position: relative;
+  display: grid;
+  gap: 24px;
+  min-height: 320px;
+  place-items: center;
+  margin-top: 72px;
+  padding: 82px var(--nadon-compact-gutter) 70px;
+  background: #ffffff;
+  color: #0b0b0b;
+  overflow: hidden;
+}
+
+.nadon-home-quote-icon {
+  position: absolute;
+  top: 38px;
+  left: calc(50% - min(585px, 50vw));
+  width: clamp(120px, 16vw, 220px);
+  height: auto;
+  fill: rgba(0, 0, 0, 0.11);
+}
+
+.nadon-home-quote p {
+  position: relative;
+  z-index: 1;
+  width: min(980px, 100%);
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(22px, 2.05vw, 34px);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.nadon-home-quote h2 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 -2px;
+  font-family: "Overpass", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.nadon-home-quote > span {
+  position: relative;
+  z-index: 1;
+  margin-top: -8px;
+  font-family: "Overpass", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.nadon-home-collage {
+  position: relative;
+  width: auto;
+  max-width: none;
+  margin: 0 auto;
+  padding: 56px var(--nadon-wide-gutter) 0;
+}
+
+.nadon-home-statement {
+  width: min(980px, 100%);
+  margin: 0 auto 32px;
+  color: #1a1a1a;
+  font-family: "Spectral", Georgia, serif;
+  font-size: 15px;
+  font-weight: 200;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.nadon-feature img,
+.nadon-gallery img,
+.nadon-social-grid img {
+  object-fit: cover;
+  background: #e8dfd4;
+  filter: contrast(1.02) saturate(0.94);
+}
+
+.nadon-label {
+  margin: 0 0 24px;
+  color: #5f594f;
+  font-family: "Spectral", Georgia, serif;
+  font-size: 13px;
+  font-weight: 200;
+  text-transform: lowercase;
+}
+
+.nadon-about-band {
+  position: relative;
+  display: block;
+  width: var(--nadon-compact-section-width);
+  max-width: 100%;
+  height: 1161px;
+  margin: 0 auto;
+  padding: 0;
+  background: #ffffff;
+  isolation: isolate;
+}
+
+.nadon-about-band > div:not(.nadon-about-images) {
+  position: absolute;
+  z-index: 3;
+  pointer-events: auto;
+  user-select: text;
+}
+
+.nadon-about-images {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.nadon-about-images img {
+  position: absolute;
+  object-fit: cover;
+  filter: contrast(1.02) saturate(0.94);
+  pointer-events: none;
+  user-select: none;
+}
+
+.nadon-about-image-1 {
+  top: 85px;
+  left: 687px;
+  width: 501px;
+  height: 379px;
+  object-position: 100% 100%;
+}
+
+.nadon-about-image-2 {
+  top: 290px;
+  left: 488px;
+  width: 358px;
+  height: 310px;
+  object-fit: contain;
+  object-position: 50% 50%;
+}
+
+.nadon-about-image-3 {
+  top: 312px;
+  left: 13px;
+  width: 412px;
+  height: 642px;
+  object-position: 50% 50%;
+}
+
+.nadon-about-image-4 {
+  top: 633px;
+  left: 340px;
+  width: 280px;
+  height: 400px;
+  object-position: 100% 100%;
+}
+
+.nadon-about-title {
+  top: 110px;
+  left: 15px;
+  width: 558px;
+  height: 72px;
+}
+
+.nadon-about-band h2 {
+  width: 558px;
+  height: 72px;
+  margin: 0;
+  color: #0a0a0a;
+  font-family: "amoretsanswebfont", "Cormorant Garamond", Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.nadon-about-kicker {
+  top: 199px;
+  left: 15px;
+  width: 554px;
+  min-height: 76px;
+}
+
+.nadon-about-band h3 {
+  width: 554px;
+  margin: 0;
+  color: #0a0a0a;
+  font-family: "Spectral", Georgia, serif;
+  font-size: 18px;
+  font-weight: 200;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.nadon-about-copy {
+  top: 633px;
+  left: 643px;
+  width: 539px;
+  height: 439px;
+  overflow: hidden;
+  font-family: "Spectral", Georgia, serif;
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  column-count: 2;
+  column-gap: 30px;
+}
+
+.nadon-about-copy p {
+  margin: 0;
+}
+
+.nadon-about-cta {
+  position: absolute;
+  top: 1085px;
+  left: 932px;
+  z-index: 3;
+  display: grid;
+  width: 244px;
+  height: 41px;
+  place-items: center;
+  border: 1px solid #0a0a0a;
+  font-family: "Spectral", Georgia, serif;
+  font-size: 12px;
+  font-weight: 200;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nadon-about-faqs {
+  display: grid;
+  gap: 48px;
+  width: var(--nadon-compact-section-width);
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 82px var(--nadon-compact-gutter) 96px;
+  background: #ffffff;
+  color: #19191a;
+}
+
+.nadon-about-faqs-heading {
+  display: grid;
+  gap: 24px;
+  justify-items: center;
+  text-align: center;
+}
+
+.nadon-about-faqs-heading p {
+  order: 2;
+  max-width: 760px;
+  margin: 0;
+  font-family: "Spectral", Georgia, serif;
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+.nadon-about-faqs-heading a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.nadon-about-faqs-heading h2 {
+  order: 1;
+  max-width: 640px;
+  margin: 0;
+  font-family: "Spectral", Georgia, serif;
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 200;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+
+.nadon-about-faq-list {
+  display: grid;
+  width: min(800px, 100%);
+  margin: 0 auto;
+  border-top: 1px solid rgba(25, 25, 26, 0.16);
+}
+
+.nadon-about-faq {
+  border-bottom: 1px solid rgba(25, 25, 26, 0.16);
+}
+
+.nadon-about-faq summary {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.nadon-about-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.nadon-about-faq h3 {
+  margin: 0;
+  font-family: "Spectral", Georgia, serif;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.nadon-about-faq summary span {
+  flex: 0 0 auto;
+  font-family: "Spectral", Georgia, serif;
+  font-size: 31px;
+  font-weight: 200;
+  line-height: 1;
+  transition: transform 240ms ease;
+}
+
+.nadon-about-faq[open] summary span {
+  transform: rotate(45deg);
+}
+
+.nadon-about-faq-answer {
+  padding: 10px 40px 40px;
+}
+
+.nadon-about-faq-answer p {
+  font-family: "Spectral", Georgia, serif;
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+.nadon-press {
+  width: var(--nadon-compact-section-width);
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 58px var(--nadon-compact-gutter);
+  text-align: center;
+}
+
+.nadon-press h3 {
+  margin: 0 0 24px;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.nadon-press div {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.nadon-press img {
+  width: 212px;
+  height: 96px;
+  object-fit: contain;
+}
+
+.nadon-testimonial {
+  position: relative;
+  width: var(--nadon-compact-section-width);
+  max-width: 100%;
+  height: 935px;
+  margin: 0 auto;
+  background: #ffffff;
+  color: #3a3431;
+}
+
+.nadon-testimonial-image {
+  position: absolute;
+  top: 190px;
+  left: 59px;
+  width: 419px;
+  height: 596px;
+  object-fit: cover;
+  object-position: 100% 100%;
+}
+
+.nadon-testimonial-rail {
+  position: absolute;
+  width: 1px;
+  background: rgba(58, 52, 49, 0.2);
+}
+
+.nadon-testimonial-rail-left {
+  top: 172px;
+  left: 494px;
+  height: 623px;
+}
+
+.nadon-testimonial-rail-top {
+  top: -446px;
+  left: 600px;
+  height: 1140px;
+  transform: rotate(-90deg);
+  transform-origin: center center;
+}
+
+.nadon-testimonial-rail-right {
+  top: 241px;
+  left: 583px;
+  height: 1140px;
+  transform: rotate(-90deg);
+  transform-origin: center center;
+}
+
+.nadon-testimonial-short-line {
+  position: absolute;
+  top: 661px;
+  left: 554px;
+  width: 73px;
+  height: 1px;
+  background: rgba(58, 52, 49, 0.4);
+}
+
+.nadon-testimonial svg {
+  position: absolute;
+  width: 19px;
+  height: 15px;
+  fill: #636363;
+}
+
+.nadon-testimonial-quote-start {
+  top: 307px;
+  left: 538px;
+}
+
+.nadon-testimonial-quote-end {
+  top: 348px;
+  left: 1011px;
+  transform: rotate(181deg);
+}
+
+.nadon-testimonial h2 {
+  position: absolute;
+  top: 310px;
+  left: 554px;
+  width: 545px;
+  height: 91px;
+  margin: 0;
+  color: #3a3431;
+  font-size: 37px;
+  font-weight: 300;
+  line-height: 1;
+  text-align: left;
+}
+
+.nadon-testimonial-body {
+  position: absolute;
+  top: 415px;
+  left: 554px;
+  width: 546px;
+  height: 112px;
+  margin: 0;
+  font-family: "Spectral", Georgia, serif;
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 1.5;
+  text-align: justify;
+}
+
+.nadon-testimonial-cite {
+  position: absolute;
+  top: 554px;
+  left: 554px;
+  width: 533px;
+  height: 41px;
+  margin: 0;
+  font-size: 19px;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.nadon-testimonial-next {
+  position: absolute;
+  top: 639px;
+  left: 554px;
+  width: 167px;
+  height: 15px;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  text-align: left;
+  text-transform: uppercase;
+}

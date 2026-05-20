@@ -1,0 +1,183 @@
+.nadon-gallery-page {
+  position: relative;
+  overflow: visible;
+  background: #ffffff;
+}
+
+.nadon-gallery-shell {
+  position: relative;
+  width: var(--nadon-compact-section-width);
+  max-width: 100%;
+  min-height: calc(100vh - 96px);
+  padding: 0 var(--nadon-compact-gutter);
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.nadon-gallery-content {
+  width: 100%;
+  padding: 76px 0 5px;
+  box-sizing: border-box;
+  background: #ffffff;
+}
+
+.nadon-gallery-story {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(280px, 1fr);
+  gap: 36px;
+  align-items: end;
+  max-width: 980px;
+  margin: 0 auto 72px;
+  padding: 0 20px 58px;
+  border-bottom: 1px solid rgba(30, 25, 21, 0.16);
+  color: #1e1915;
+}
+
+.nadon-gallery-story-kicker,
+.nadon-gallery-story h2,
+.nadon-gallery-story p {
+  margin: 0;
+}
+
+.nadon-gallery-story-kicker {
+  grid-column: 1 / -1;
+  font-family: "Spectral", Georgia, serif;
+  font-size: 12px;
+  font-weight: 200;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.nadon-gallery-story h2 {
+  font-family: "amoretsanswebfont", "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(38px, 5vw, 62px);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+.nadon-gallery-story h2 span {
+  display: block;
+  margin-top: 14px;
+  font-family: "Spectral", Georgia, serif;
+  font-size: 13px;
+  font-weight: 200;
+  line-height: 1.4;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.nadon-gallery-story-copy {
+  display: grid;
+  gap: 16px;
+  font-family: "Spectral", Georgia, serif;
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 1.62;
+  letter-spacing: 0.01em;
+}
+
+.nadon-view-gallery {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nadon-compact-section-width);
+  max-width: 100%;
+  min-height: 160px;
+  padding: 0 var(--nadon-compact-gutter);
+  margin: 0 auto;
+  background: #ffffff;
+}
+
+.nadon-view-gallery a {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  color: #1a1916;
+}
+
+.nadon-view-gallery span {
+  display: block;
+  width: 170px;
+  height: 19px;
+  font-family: "Spectral", Georgia, serif;
+  font-size: 15px;
+  font-weight: 200;
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.nadon-view-gallery svg {
+  width: 46px;
+  height: 46px;
+  fill: currentColor;
+  transform: rotate(180deg);
+}
+
+@media (max-width: 1199px) and (min-width: 900px) {
+  .nadon-gallery-content {
+    padding-top: 60px;
+  }
+}
+
+@media (max-width: 899px) {
+  .nadon-gallery-shell {
+    min-height: 520px;
+    overflow: visible;
+  }
+
+  .nadon-gallery-content {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 34px 0 2px;
+  }
+
+  .nadon-gallery-story {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 28px;
+    padding: 0 8px 28px;
+  }
+
+  .nadon-gallery-story-kicker {
+    font-size: 10px;
+  }
+
+  .nadon-gallery-story h2 {
+    font-size: 30px;
+  }
+
+  .nadon-gallery-story h2 span {
+    font-size: 10px;
+  }
+
+  .nadon-gallery-story-copy {
+    gap: 10px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .nadon-view-gallery {
+    width: 100%;
+    min-height: 72px;
+  }
+
+  .nadon-view-gallery a {
+    position: static;
+    gap: 10px;
+  }
+
+  .nadon-view-gallery span {
+    width: auto;
+    height: 14px;
+    font-size: 11px;
+  }
+
+  .nadon-view-gallery svg {
+    width: 30px;
+    height: 30px;
+  }
+}
