@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   }
 };
 
+import Script from "next/script";
+
 export default function RootLayout({
   children
 }: Readonly<{
@@ -20,7 +22,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <Script 
+          src="https://www.nibgate.xyz/widget.js" 
+          strategy="afterInteractive"
+          data-nibgate-site="87f387c0-cff5-4deb-b8aa-c23cfd229d09" 
+          data-nibgate-token="efa18f9e0c0c159517b55720640abc4e" 
+          data-nibgate-api="https://api.nibgate.xyz" 
+        />
+      </body>
     </html>
   );
 }
