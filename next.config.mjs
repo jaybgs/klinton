@@ -3,6 +3,13 @@ const nextConfig = {
   outputFileTracingRoot: process.cwd(),
   devIndicators: false,
 
+  serverExternalPackages: [
+    '@nibgate/sdk',
+    '@circle-fin/x402-batching',
+  ],
+  outputFileTracingIncludes: {
+    '/api/**/*': ['./node_modules/@circle-fin/**/*', './node_modules/@nibgate/**/*'],
+  },
   async rewrites() {
     return [
       {
