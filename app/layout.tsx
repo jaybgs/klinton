@@ -28,7 +28,7 @@ export default function RootLayout({
           src="https://www.nibgate.xyz/widget.js" 
           strategy="afterInteractive"
           data-nibgate-site="87f387c0-cff5-4deb-b8aa-c23cfd229d09" 
-          data-nibgate-token="efa18f9e0c0c159517b55720640abc4e" 
+          data-nibgate-token="67a4386e4c377734a27e759d42502d5c" 
           data-nibgate-api="https://api.nibgate.xyz" 
         />
       </body>
