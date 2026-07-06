@@ -15,7 +15,7 @@ export async function generateResources() {
       resources.push({
         id: `wedding_${index}`,
         title: pub.name || gallery.name,
-        type: "image",
+        type: "article",
         imageUrl,
         price: pub.price || "5.00",
         currency: "USDC",
@@ -38,7 +38,7 @@ export async function generateResources() {
       resources.push({
         id: `studio_${index}`,
         title: `${category.title} Studio Gallery`,
-        type: "image",
+        type: "article",
         imageUrl,
         price: pub.price || "3.00",
         currency: "USDC",
