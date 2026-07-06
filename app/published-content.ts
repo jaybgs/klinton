@@ -9,12 +9,16 @@ export type PublishedImage = {
 };
 
 export type PublishedContent = {
+  nibgateWallet?: string;
   homeCarouselImages?: PublishedImage[];
   homeGalleryImages?: PublishedImage[];
   studioGalleries?: {
     coverImage?: PublishedImage | null;
     galleryImages?: PublishedImage[];
     name?: string;
+    isGated?: boolean;
+    price?: string;
+    isRated?: boolean;
   }[];
   weddingGalleries?: {
     coverImage?: PublishedImage | null;
@@ -22,6 +26,9 @@ export type PublishedContent = {
     location?: string;
     name?: string;
     story?: string;
+    isGated?: boolean;
+    price?: string;
+    isRated?: boolean;
   }[];
 };
 
@@ -38,7 +45,20 @@ export async function getPublishedContent(): Promise<PublishedContent | null> {
     }
 
     const data = (await response.json()) as { content?: PublishedContent | null };
-    return data.content ?? null;
+    const content = data.content;
+    if (content) {
+      if (content.weddingGalleries) {
+        content.weddingGalleries.forEach(g => {
+          if (g.isGated) g.galleryImages = [];
+        });
+      }
+      if (content.studioGalleries) {
+        content.studioGalleries.forEach(g => {
+          if (g.isGated) g.galleryImages = [];
+        });
+      }
+    }
+    return content ?? null;
   } catch {
     return null;
   }

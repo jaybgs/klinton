@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: nadon-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 4000
+      - key: MONGODB_URI
+        sync: false   # You will paste this from MongoDB Atlas
+      - key: MONGODB_DB
+        value: klinton
+      - key: ALLOWED_ORIGIN
+        sync: false   # Paste your Vercel frontend URL here e.g. https://your-site.vercel.app

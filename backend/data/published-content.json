@@ -6,6 +6,9 @@
       "name": "Sara & Mark",
       "location": "Lake Hawea, New Zealand",
       "story": "A luminous celebration told through quiet gestures, open laughter, and the kind of in-between moments that make a wedding feel completely personal.",
+      "isGated": true,
+      "price": "0.00",
+      "isRated": false,
       "coverImage": null,
       "galleryImages": []
     },
@@ -13,6 +16,9 @@
       "name": "Anna & Jay",
       "location": "Deux Belettes\nByron Bay Hinterland",
       "story": "A luminous celebration told through quiet gestures, open laughter, and the kind of in-between moments that make a wedding feel completely personal.",
+      "isGated": false,
+      "price": "0.00",
+      "isRated": false,
       "coverImage": null,
       "galleryImages": []
     },
@@ -20,6 +26,9 @@
       "name": "Carmel & Oliver",
       "location": "Carthona House\nSydney",
       "story": "A luminous celebration told through quiet gestures, open laughter, and the kind of in-between moments that make a wedding feel completely personal.",
+      "isGated": false,
+      "price": "0.00",
+      "isRated": false,
       "coverImage": null,
       "galleryImages": []
     },
@@ -27,6 +36,9 @@
       "name": "Cassandra & James",
       "location": "Gardens House\nMelbourne",
       "story": "A luminous celebration told through quiet gestures, open laughter, and the kind of in-between moments that make a wedding feel completely personal.",
+      "isGated": false,
+      "price": "0.00",
+      "isRated": false,
       "coverImage": {
         "aspectRatio": 1,
         "height": 1080,
@@ -42,6 +54,9 @@
       "name": "Alexia & Michael",
       "location": "Wallalong House\nWallalong, NSW",
       "story": "A luminous celebration told through quiet gestures, open laughter, and the kind of in-between moments that make a wedding feel completely personal.",
+      "isGated": false,
+      "price": "0.00",
+      "isRated": false,
       "coverImage": {
         "aspectRatio": 1,
         "height": 1080,
@@ -57,6 +72,9 @@
       "name": "Lauren & Nate",
       "location": "MCA, Sydney",
       "story": "A luminous celebration told through quiet gestures, open laughter, and the kind of in-between moments that make a wedding feel completely personal.",
+      "isGated": true,
+      "price": "0.01",
+      "isRated": false,
       "coverImage": null,
       "galleryImages": []
     },
@@ -64,6 +82,9 @@
       "name": "Hannah & Max",
       "location": "The Brooklet\nByron Bay Hinterland",
       "story": "A luminous celebration told through quiet gestures, open laughter, and the kind of in-between moments that make a wedding feel completely personal.",
+      "isGated": true,
+      "price": "0.01",
+      "isRated": false,
       "coverImage": null,
       "galleryImages": []
     },
@@ -71,6 +92,9 @@
       "name": "Natalie & David",
       "location": "Chateau de Tourreau\nProvence, France",
       "story": "A luminous celebration told through quiet gestures, open laughter, and the kind of in-between moments that make a wedding feel completely personal.",
+      "isGated": false,
+      "price": "0.00",
+      "isRated": false,
       "coverImage": null,
       "galleryImages": []
     },
@@ -78,6 +102,9 @@
       "name": "Jordana & Sam",
       "location": "Icebergs, Sydney",
       "story": "A luminous celebration told through quiet gestures, open laughter, and the kind of in-between moments that make a wedding feel completely personal.",
+      "isGated": false,
+      "price": "0.00",
+      "isRated": false,
       "coverImage": null,
       "galleryImages": []
     }
@@ -85,21 +112,33 @@
   "studioGalleries": [
     {
       "name": "Family",
+      "isGated": true,
+      "price": "0.01",
+      "isRated": true,
       "coverImage": null,
       "galleryImages": []
     },
     {
       "name": "Couples",
+      "isGated": false,
+      "price": "0.00",
+      "isRated": false,
       "coverImage": null,
       "galleryImages": []
     },
     {
       "name": "Birthdays",
+      "isGated": false,
+      "price": "0.00",
+      "isRated": false,
       "coverImage": null,
       "galleryImages": []
     },
     {
       "name": "Portraits",
+      "isGated": false,
+      "price": "0.00",
+      "isRated": false,
       "coverImage": null,
       "galleryImages": []
     }
@@ -158,5 +197,6 @@
     null,
     null
   ],
-  "publishedAt": "2026-05-13T07:06:14.079Z"
+  "nibgateWallet": "0x80D291e82C6f8a11cEC9A9BA699285AFe14d7F4D",
+  "publishedAt": "2026-07-05T17:45:34.768Z"
 }

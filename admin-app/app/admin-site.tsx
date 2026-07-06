@@ -18,6 +18,7 @@ type PublishedImage = {
 };
 
 type PublishedContent = {
+  nibgateWallet?: string;
   footerImages?: (PublishedImage | null)[];
   homeCarouselImages?: PublishedImage[];
   homeGalleryImages?: PublishedImage[];
@@ -26,6 +27,9 @@ type PublishedContent = {
     coverImage?: PublishedImage | null;
     galleryImages?: PublishedImage[];
     name?: string;
+    isGated?: boolean;
+    price?: string;
+    isRated?: boolean;
   }[];
   testimonials?: {
     context?: string;
@@ -39,6 +43,9 @@ type PublishedContent = {
     location?: string;
     name?: string;
     story?: string;
+    isGated?: boolean;
+    price?: string;
+    isRated?: boolean;
   }[];
 };
 
@@ -339,6 +346,9 @@ export function AdminSite() {
               name: String(formData.get(`wedding-name-${index + 1}`) || gallery.name),
               location: String(formData.get(`wedding-location-${index + 1}`) || gallery.location),
               story: String(formData.get(`wedding-story-one-${index + 1}`) || weddingStoryOne),
+              isGated: formData.get(`wedding-gated-${index + 1}`) === "on",
+              price: String(formData.get(`wedding-price-${index + 1}`) || "0.005"),
+              isRated: formData.get(`wedding-rated-${index + 1}`) === "on",
               coverImage: nextCoverImage ?? savedGallery?.coverImage ?? null,
               galleryImages: nextGalleryImages.length > 0 ? nextGalleryImages : savedGallery?.galleryImages ?? []
             };
@@ -352,6 +362,9 @@ export function AdminSite() {
 
             return {
               name: gallery.name,
+              isGated: formData.get(`studio-gated-${index + 1}`) === "on",
+              price: String(formData.get(`studio-price-${index + 1}`) || "0.005"),
+              isRated: formData.get(`studio-rated-${index + 1}`) === "on",
               coverImage: nextCoverImage ?? savedGallery?.coverImage ?? null,
               galleryImages: nextGalleryImages.length > 0 ? nextGalleryImages : savedGallery?.galleryImages ?? []
             };
@@ -378,6 +391,13 @@ export function AdminSite() {
           })
         )
       };
+
+      const nextNibgateWallet = String(formData.get("nibgate-wallet") || "");
+      const isAnyGated = payload.weddingGalleries?.some(g => g.isGated) || payload.studioGalleries?.some(g => g.isGated);
+      if (isAnyGated && !nextNibgateWallet) {
+        throw new Error("A Nibgate wallet address is required when gating galleries. Please fill it out at the bottom of the page.");
+      }
+      payload.nibgateWallet = nextNibgateWallet;
 
       const response = await fetch(`${backendUrl}/api/content`, {
         body: JSON.stringify(payload),
@@ -541,6 +561,57 @@ export function AdminSite() {
                         <span>Story paragraph one</span>
                         <textarea defaultValue={savedGallery?.story || weddingStoryOne} name={`wedding-story-one-${index + 1}`} rows={4} />
                       </label>
+                      <label style={{ 
+                        display: "flex", 
+                        flexDirection: "row", 
+                        alignItems: "center", 
+                        gap: "12px", 
+                        background: "#fafafa", 
+                        padding: "8px 12px", 
+                        borderRadius: "6px", 
+                        border: "1px solid #e5e5e5",
+                        cursor: "pointer",
+                        marginTop: "8px",
+                        width: "max-content"
+                      }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                          <input 
+                            defaultChecked={savedGallery?.isGated || false} 
+                            name={`wedding-gated-${index + 1}`} 
+                            type="checkbox" 
+                            style={{ width: "14px", height: "14px", accentColor: "#000", cursor: "pointer", margin: 0 }} 
+                            onChange={(e) => {
+                              const priceInput = e.target.parentElement?.parentElement?.querySelector('input[type=number]') as HTMLInputElement;
+                              if (priceInput) priceInput.disabled = !e.target.checked;
+                              markChanged();
+                            }}
+                          />
+                          <span style={{ fontWeight: 600, color: "#111", fontSize: "13px" }}>Monetize with Nibgate</span>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: "6px", borderLeft: "1px solid #e5e5e5", paddingLeft: "12px" }}>
+                          <span style={{ fontSize: "12px", fontWeight: 500, color: "#666" }}>Price</span>
+                          <input 
+                            className={styles.priceInput}
+                            name={`wedding-price-${index + 1}`} 
+                            type="number" 
+                            step="0.001"
+                            defaultValue={savedGallery?.price || "0.005"}
+                            disabled={!(savedGallery?.isGated || false)}
+                            style={{ width: "50px", padding: "4px", borderRadius: "4px", border: "1px solid #000", background: "#000", color: "#fff", fontSize: "13px", textAlign: "center" }}
+                          />
+                          <span style={{ fontSize: "12px", color: "#666" }}>USDC</span>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: "6px", borderLeft: "1px solid #e5e5e5", paddingLeft: "12px" }}>
+                          <input 
+                            defaultChecked={savedGallery?.isRated || false} 
+                            name={`wedding-rated-${index + 1}`} 
+                            type="checkbox" 
+                            style={{ width: "14px", height: "14px", accentColor: "#000", cursor: "pointer", margin: 0 }} 
+                            onChange={markChanged}
+                          />
+                          <span style={{ fontWeight: 600, color: "#111", fontSize: "13px" }}>Enable Ratings</span>
+                        </div>
+                      </label>
                       <label className={styles.bulkUpload}>
                         <span>Wedding gallery pictures</span>
                         <span className={styles.uploadButton}>Choose photos</span>
@@ -578,6 +649,57 @@ export function AdminSite() {
                     />
                     <div className={styles.editorFields}>
                       <p className={styles.galleryTitle}>{gallery.name}</p>
+                      <label style={{ 
+                        display: "flex", 
+                        flexDirection: "row", 
+                        alignItems: "center", 
+                        gap: "12px", 
+                        background: "#fafafa", 
+                        padding: "8px 12px", 
+                        borderRadius: "6px", 
+                        border: "1px solid #e5e5e5",
+                        cursor: "pointer",
+                        marginTop: "8px",
+                        width: "max-content"
+                      }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                          <input 
+                            defaultChecked={savedGallery?.isGated || false} 
+                            name={`studio-gated-${index + 1}`} 
+                            type="checkbox" 
+                            style={{ width: "14px", height: "14px", accentColor: "#000", cursor: "pointer", margin: 0 }} 
+                            onChange={(e) => {
+                              const priceInput = e.target.parentElement?.parentElement?.querySelector('input[type=number]') as HTMLInputElement;
+                              if (priceInput) priceInput.disabled = !e.target.checked;
+                              markChanged();
+                            }}
+                          />
+                          <span style={{ fontWeight: 600, color: "#111", fontSize: "13px" }}>Monetize with Nibgate</span>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: "6px", borderLeft: "1px solid #e5e5e5", paddingLeft: "12px" }}>
+                          <span style={{ fontSize: "12px", fontWeight: 500, color: "#666" }}>Price</span>
+                          <input 
+                            className={styles.priceInput}
+                            name={`studio-price-${index + 1}`} 
+                            type="number" 
+                            step="0.001"
+                            defaultValue={savedGallery?.price || "0.005"}
+                            disabled={!(savedGallery?.isGated || false)}
+                            style={{ width: "50px", padding: "4px", borderRadius: "4px", border: "1px solid #000", background: "#000", color: "#fff", fontSize: "13px", textAlign: "center" }}
+                          />
+                          <span style={{ fontSize: "12px", color: "#666" }}>USDC</span>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: "6px", borderLeft: "1px solid #e5e5e5", paddingLeft: "12px" }}>
+                          <input 
+                            defaultChecked={savedGallery?.isRated || false} 
+                            name={`studio-rated-${index + 1}`} 
+                            type="checkbox" 
+                            style={{ width: "14px", height: "14px", accentColor: "#000", cursor: "pointer", margin: 0 }} 
+                            onChange={markChanged}
+                          />
+                          <span style={{ fontWeight: 600, color: "#111", fontSize: "13px" }}>Enable Ratings</span>
+                        </div>
+                      </label>
                       <label className={styles.bulkUpload}>
                         <span>{gallery.name} gallery pictures</span>
                         <span className={styles.uploadButton}>Choose photos</span>
@@ -650,6 +772,28 @@ export function AdminSite() {
                   src={publishedContent?.footerImages?.[index]?.src || src}
                 />
               ))}
+            </div>
+          </section>
+
+          <section className={styles.managerSection}>
+            <div className={styles.sectionHeader}>
+              <p>Monetization</p>
+              <h2>Nibgate Settings</h2>
+              <span>Global payout details</span>
+            </div>
+            <div style={{ background: "#fafafa", padding: "24px", borderRadius: "8px", border: "1px solid #e5e5e5" }}>
+              <label style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <span style={{ fontWeight: 600, color: "#111", fontSize: "14px" }}>Payout Wallet Address</span>
+                <span style={{ fontSize: "13px", color: "#666", fontWeight: 400 }}>Enter the Web3 wallet address that will receive the USDC payments.</span>
+                <input 
+                  type="text" 
+                  name="nibgate-wallet" 
+                  defaultValue={publishedContent?.nibgateWallet || ""} 
+                  placeholder="0x..." 
+                  onChange={markChanged}
+                  style={{ padding: "10px", borderRadius: "4px", border: "1px solid #ccc", width: "100%", maxWidth: "400px" }}
+                />
+              </label>
             </div>
           </section>
 

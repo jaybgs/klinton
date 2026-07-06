@@ -1,55 +1,77 @@
 import { createServer } from "node:http";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { MongoClient } from "mongodb";
+import { config } from "dotenv";
+
+// Load .env for local development (on Render, env vars are injected directly)
+try { config(); } catch {}
+
 
 const port = Number(process.env.PORT ?? 4000);
-const dataFile = join(dirname(fileURLToPath(import.meta.url)), "data", "published-content.json");
+const mongoUri = process.env.MONGODB_URI;
+const dbName = process.env.MONGODB_DB ?? "klinton";
+const collectionName = "published_content";
 
+// --- MongoDB connection ---
+let client;
+let db;
+
+async function getDb() {
+  if (!db) {
+    if (!mongoUri) throw new Error("MONGODB_URI environment variable is not set");
+    const newClient = new MongoClient(mongoUri);
+    await newClient.connect();
+    client = newClient;
+    db = client.db(dbName);
+    console.log(`Connected to MongoDB: ${dbName}`);
+  }
+  return db;
+}
+
+// --- Content helpers ---
+async function readPublishedContent() {
+  try {
+    const database = await getDb();
+    const doc = await database.collection(collectionName).findOne({ _id: "main" });
+    if (!doc) return null;
+    const { _id, ...content } = doc;
+    return content;
+  } catch (err) {
+    console.error("readPublishedContent error:", err);
+    return null;
+  }
+}
+
+async function writePublishedContent(content) {
+  const database = await getDb();
+  await database.collection(collectionName).replaceOne(
+    { _id: "main" },
+    { _id: "main", ...content, publishedAt: new Date().toISOString() },
+    { upsert: true }
+  );
+}
+
+// --- HTTP helpers ---
 const readBody = async (request) => {
   const chunks = [];
-
-  for await (const chunk of request) {
-    chunks.push(chunk);
-  }
-
+  for await (const chunk of request) chunks.push(chunk);
   return Buffer.concat(chunks).toString("utf8");
 };
 
-const readPublishedContent = async () => {
-  try {
-    return JSON.parse(await readFile(dataFile, "utf8"));
-  } catch {
-    return null;
-  }
-};
-
-const writePublishedContent = async (content) => {
-  await mkdir(dirname(dataFile), { recursive: true });
-  await writeFile(
-    dataFile,
-    JSON.stringify(
-      {
-        ...content,
-        publishedAt: new Date().toISOString()
-      },
-      null,
-      2
-    )
-  );
-};
-
 const json = (response, status, body) => {
+  const origin = response.req?.headers?.origin || "*";
   response.writeHead(status, {
     "Access-Control-Allow-Headers": "content-type, authorization",
     "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
-    "Access-Control-Allow-Origin": process.env.ALLOWED_ORIGIN ?? "*",
+    "Access-Control-Allow-Origin": process.env.ALLOWED_ORIGIN ?? origin,
     "Content-Type": "application/json"
   });
   response.end(JSON.stringify(body));
 };
 
+// --- Server ---
 const server = createServer(async (request, response) => {
+  response.req = request;
+
   if (request.method === "OPTIONS") {
     json(response, 204, {});
     return;
@@ -69,15 +91,13 @@ const server = createServer(async (request, response) => {
         homeCarouselImages: 10,
         studioGalleryImages: 50
       },
-      status: "placeholder"
+      status: "ok"
     });
     return;
   }
 
   if (url.pathname === "/api/content" && request.method === "GET") {
-    json(response, 200, {
-      content: await readPublishedContent()
-    });
+    json(response, 200, { content: await readPublishedContent() });
     return;
   }
 

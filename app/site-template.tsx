@@ -6,6 +6,7 @@ import { HeaderHeroState } from "./header-hero-state";
 import { HomeHeroCarousel } from "./home-hero-carousel";
 import { LoadingImage } from "./loading-image";
 import { MasonryGallery } from "./masonry-gallery";
+import { GatedGallery } from "./gated-gallery";
 import { PublishedContent, PublishedImage } from "./published-content";
 import { MobileSiteMenu, SiteNavLinks } from "./site-nav";
 import { WeddingListingGrid } from "./wedding-listing-grid";
@@ -687,11 +688,24 @@ export function SiteWeddingGalleryPage({
               </div>
             </section>
 
-            <MasonryGallery
-              ariaLabel={`${galleryName} wedding photographs`}
-              className="nadon-gallery-masonry"
-              items={galleryItems}
-            />
+            {publishedGallery?.isGated ? (
+              <GatedGallery
+                resourceId={`wedding_${galleryIndex}`}
+                resourceTitle={galleryName}
+                resourcePath={gallery.href}
+                price={publishedGallery?.price || "0.005"}
+                isRated={publishedGallery?.isRated || false}
+                recipient={publishedContent?.nibgateWallet || "0x0000000000000000000000000000000000000000"}
+                fallbackImages={galleryImages}
+                ariaLabel={`${galleryName} wedding photographs`}
+              />
+            ) : (
+              <MasonryGallery
+                ariaLabel={`${galleryName} wedding photographs`}
+                className="nadon-gallery-masonry"
+                items={galleryItems}
+              />
+            )}
           </div>
         </div>
 
@@ -910,11 +924,24 @@ export function SiteStudioPortfolioGalleryPage({
               </div>
             </section>
 
-            <MasonryGallery
-              ariaLabel={`${category.title} studio photographs`}
-              className="nadon-gallery-masonry"
-              items={galleryItems}
-            />
+            {publishedContent?.studioGalleries?.[categoryIndex]?.isGated ? (
+              <GatedGallery
+                resourceId={`studio_${categoryIndex}`}
+                resourceTitle={`${category.title} Studio Gallery`}
+                resourcePath={category.href}
+                price={publishedContent?.studioGalleries?.[categoryIndex]?.price || "0.005"}
+                isRated={publishedContent?.studioGalleries?.[categoryIndex]?.isRated || false}
+                recipient={publishedContent?.nibgateWallet || "0x0000000000000000000000000000000000000000"}
+                fallbackImages={gallerySource as PublishedImage[]}
+                ariaLabel={`${category.title} studio photographs`}
+              />
+            ) : (
+              <MasonryGallery
+                ariaLabel={`${category.title} studio photographs`}
+                className="nadon-gallery-masonry"
+                items={galleryItems}
+              />
+            )}
           </div>
         </div>
 
