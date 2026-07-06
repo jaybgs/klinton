@@ -1,4 +1,3 @@
-import "@circle-fin/x402-batching/server"; // Force Next.js to bundle this dynamic import
 import { createCircleGatewayServer } from "@nibgate/sdk/server";
 import { generateResources } from "../../../nibgate-utils";
 
