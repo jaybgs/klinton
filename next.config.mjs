@@ -3,18 +3,6 @@ const nextConfig = {
   outputFileTracingRoot: process.cwd(),
   devIndicators: false,
 
-  serverExternalPackages: [
-    '@nibgate/sdk',
-    '@circle-fin/x402-batching',
-  ],
-  outputFileTracingIncludes: {
-    '/api/**/*': [
-      './node_modules/@circle-fin/**/*',
-      './node_modules/@nibgate/**/*',
-      './node_modules/@x402/**/*',
-      './node_modules/viem/**/*'
-    ],
-  },
   async rewrites() {
     return [
       {
