@@ -119,6 +119,6 @@ const server = createServer(async (request, response) => {
   json(response, 404, { error: "Not found" });
 });
 
-server.listen(port, () => {
-  console.log(`Nadon backend listening on http://localhost:${port}`);
+server.listen(port, "0.0.0.0", () => {
+  console.log(`Nadon backend listening on http://0.0.0.0:${port}`);
 });
