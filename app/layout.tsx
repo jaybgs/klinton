@@ -22,15 +22,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
-        <Script 
+      <head>
+        <script 
+          async 
           src="https://www.nibgate.xyz/widget.js" 
-          strategy="afterInteractive"
           data-nibgate-site="87f387c0-cff5-4deb-b8aa-c23cfd229d09" 
           data-nibgate-token="67a4386e4c377734a27e759d42502d5c" 
           data-nibgate-api="https://api.nibgate.xyz" 
-        />
+        ></script>
+      </head>
+      <body>
+        {children}
       </body>
     </html>
   );
