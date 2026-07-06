@@ -8,7 +8,12 @@ const nextConfig = {
     '@circle-fin/x402-batching',
   ],
   outputFileTracingIncludes: {
-    '/api/**/*': ['./node_modules/@circle-fin/**/*', './node_modules/@nibgate/**/*'],
+    '/api/**/*': [
+      './node_modules/@circle-fin/**/*',
+      './node_modules/@nibgate/**/*',
+      './node_modules/@x402/**/*',
+      './node_modules/viem/**/*'
+    ],
   },
   async rewrites() {
     return [
