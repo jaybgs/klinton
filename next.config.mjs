@@ -2,10 +2,7 @@
 const nextConfig = {
   outputFileTracingRoot: process.cwd(),
   devIndicators: false,
-  serverExternalPackages: [
-    '@nibgate/sdk',
-    '@circle-fin/x402-batching',
-  ],
+
   async rewrites() {
     return [
       {
