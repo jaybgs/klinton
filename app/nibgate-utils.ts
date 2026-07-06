@@ -8,14 +8,16 @@ export async function generateResources() {
   weddingGalleries.forEach((gallery, index) => {
     const pub = publishedContent?.weddingGalleries?.[index];
     if (pub?.isGated) {
-      let imageUrl = pub.coverImage?.src;
+      // Use custom cover image or fallback to the template preview image
+      let rawImage = pub.coverImage?.src || gallery.src;
+      let imageUrl = typeof rawImage === "string" ? rawImage : (rawImage as any)?.src;
       if (imageUrl && !imageUrl.startsWith('http') && !imageUrl.startsWith('data:')) {
         imageUrl = `${process.env.NIBGATE_SITE_ORIGIN || "http://localhost:5000"}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
       }
       resources.push({
         id: `wedding_${index}`,
         title: pub.name || gallery.name,
-        type: "article",
+        type: "image",
         imageUrl,
         price: pub.price || "5.00",
         currency: "USDC",
@@ -31,14 +33,15 @@ export async function generateResources() {
   studioPortfolioCategories.forEach((category, index) => {
     const pub = publishedContent?.studioGalleries?.[index];
     if (pub?.isGated) {
-      let imageUrl = pub.coverImage?.src;
+      let rawImage = pub.coverImage?.src || category.image;
+      let imageUrl = typeof rawImage === "string" ? rawImage : (rawImage as any)?.src;
       if (imageUrl && !imageUrl.startsWith('http') && !imageUrl.startsWith('data:')) {
         imageUrl = `${process.env.NIBGATE_SITE_ORIGIN || "http://localhost:5000"}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
       }
       resources.push({
         id: `studio_${index}`,
         title: `${category.title} Studio Gallery`,
-        type: "article",
+        type: "image",
         imageUrl,
         price: pub.price || "3.00",
         currency: "USDC",
