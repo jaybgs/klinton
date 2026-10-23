@@ -77,14 +77,8 @@ export const images = {
     "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=82"
 };
 
-export const homeImages = nadonPhotos.map((photo,index)=>({...photo,className:"nadon-home-image nadon-home-image-"+index}));
-export const aboutImages = [
-  { className: "nadon-about-image-1", src: images.aboutBackdrop, alt: "" },
-  { className: "nadon-about-image-2", src: images.bridalProfile, alt: "" },
-  { className: "nadon-about-image-3", src: images.portrait, alt: "" },
-  { className: "nadon-about-image-4", src: images.bouquet, alt: "" }
-];
-
+export const homeImages = nadonPhotos.slice(0,18).map((photo,index)=>({...photo,className:"nadon-home-image nadon-home-image-"+index}));
+export const aboutImages = Array.from({length:4},(_,i)=>({className:"nadon-about-image-"+(i+1),src:"/images/nadon-about/portrait-"+(i+1)+".jpg",alt:"Nadon Klinton portrait"}));
 export const testimonials = [
   {
     name: "Hannah & Luke",
@@ -132,7 +126,8 @@ export const testimonials = [
   }
 ];
 
-export const footerImages = [...nadonPhotos,...nadonPhotos].map(photo=>photo.src);
+const carouselPhotos = nadonPhotos.slice(18);
+export const footerImages = [...carouselPhotos,...carouselPhotos].map(photo=>photo.src);
 export const pressLogos = [
   {
     src: "/images/bellanaija-weddings-logo.png",
@@ -355,4 +350,3 @@ export const home: PageContent = {
   ],
   cta: "Begin your enquiry"
 };
-

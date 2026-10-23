@@ -1,3 +1,4 @@
+import { InfinitePhotoStrip } from "./infinite-photo-strip";
 import nadonPhotos from "./nadon-photos.json";
 import { StoryMarquee, PhilosophyReveal, FloatingTitle } from "./scroll-typography";
 import { CollectionGallery, Reveal } from "./experience-ui";
@@ -414,20 +415,7 @@ function QuoteIcon({ className = "" }: { className?: string }) {
 
 
 export function SiteSocialGrid() {
-  return (
-    <div className="nadon-social-grid" aria-label="Social image grid">
-      <div className="nadon-social-track">
-        {footerImages.map((src, index) => (
-          <LoadingImage
-            key={`${src}-${index}`}
-            src={src}
-            alt={`Nadon Klinton social image ${index + 1}`}
-            aria-hidden="true"
-          />
-        ))}
-      </div>
-    </div>
-  );
+  return <InfinitePhotoStrip images={footerImages} />;
 }
 
 function SiteAboutBand() {
@@ -848,7 +836,7 @@ export function SiteStudioPortfolioGalleryPage({
   const studioPage = pages.find((page) => page.slug === "studios");
   const categoryIndex = studioPortfolioCategories.findIndex((item) => item.slug === category.slug);
   const publishedGalleryImages = publishedContent?.studioGalleries?.[categoryIndex]?.galleryImages?.filter((image) => image.src);
-  const selections = [[7,14,5,13,15],[6,3,13,15,16,2],[8,0,12,17,1],[4,9,17,1,11,12]];
+  const selections = [[7,14,5,13,15],[18,21,22,6,3,13,15,16,2],[20,8,0,12,17,1],[19,20,23,4,9,17,1,11,12]];
   const baseImages = (selections[categoryIndex] ?? selections[3]).map(i=>nadonPhotos[i]);
   const gallerySource = publishedGalleryImages?.length ? publishedGalleryImages : baseImages;
   const galleryItems = gallerySource.map((image, index) => ({

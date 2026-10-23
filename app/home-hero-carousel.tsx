@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { LoadingImage } from "./loading-image";
-import { homeImages, images as originalImages, site } from "./site-data";
+import { homeImages, site } from "./site-data";
 
 const heroStatement = `${site.name} is a journalistic style wedding and lifestyle photography practice, with a background in editorial imagery and an eye for beautiful details. Available for commissions worldwide.`;
 
@@ -33,7 +33,7 @@ export function HomeHeroCarousel({
     src: string;
   }[];
 }) {
-  const heroImages = images?.length ? images : [homeImages[3], homeImages[4], homeImages[15], {src:originalImages.veil,alt:"City skyline"}, {src:originalImages.weddingWalk,alt:"Wedding couple on a balcony"}];
+  const heroImages = images?.length ? images : [homeImages[3], homeImages[4], homeImages[15], homeImages[2], homeImages[16]];
   const [activeIndex, setActiveIndex] = useState(0);
   const previousIndex = () => setActiveIndex((index) => (index - 1 + heroImages.length) % heroImages.length);
   const nextIndex = () => setActiveIndex((index) => (index + 1) % heroImages.length);

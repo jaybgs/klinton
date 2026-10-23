@@ -254,7 +254,7 @@ export function MasonryGallery({ ariaLabel, className = "", items: sourceItems }
             }
 
             return (
-              <button type="button" aria-label={"View "+item.alt} onClick={e=>{lastTrigger.current=e.currentTarget;setSelected(item.index)}} className="nadon-masonry-item nadon-photo-button" key={`${item.src}-${item.index}`} style={itemStyle}>
+              <button type="button" aria-label={"View "+item.alt} onClick={e=>{lastTrigger.current=e.currentTarget;setSelected(item.index)}} data-collage={item.index%6} className="nadon-masonry-item nadon-photo-button" key={`${item.src}-${item.index}`} style={itemStyle}>
                 {image}
                 </button>
             );
@@ -266,5 +266,3 @@ export function MasonryGallery({ ariaLabel, className = "", items: sourceItems }
       </dialog>    </div>
   );
 }
-
-
