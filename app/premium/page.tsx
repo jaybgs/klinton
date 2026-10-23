@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { setupResourcePage, trackResourcePage } from "@nibgate/sdk";
+import { useEffect, useState, useRef } from "react";
+import { createEvmGatewayUnlock, trackResourcePage } from "@nibgate/sdk";
 // Re-use the same testResource definition on the client, or define it locally.
 // We'll define it here so it matches the server's expectation.
 const testResource = {
@@ -14,28 +14,30 @@ const testResource = {
   path: `/premium`,
   url: `http://localhost:5000/premium`,
   access: { humans: "paid" as const, agents: "paid" as const },
-  unlock: { mode: "one_time" }
+  unlock: { mode: "one_time" as const }
 };
 
 export default function PremiumPage() {
   const [content, setContent] = useState<string | null>(null);
+  const gatewayRef = useRef<any>(null);
 
   useEffect(() => {
     // 1. Track the page view for analytics
     trackResourcePage(testResource, { source: "creator-site" });
 
     // 2. Setup the widget to handle unlocks and fetch the protected API route
-    setupResourcePage(testResource, {
-      source: "creator-site",
-      accessPath: "/api/nibgate/access", // Matches the route we just created
-      button: "[data-nibgate-unlock]", // The CSS selector for our pay button
-      status: "[data-nibgate-status]" // The CSS selector for status updates
-    });
-
-    // To actually load the content when unlocked, you can also fetch it directly.
-    // The widget handles intercepting the 402 and triggering payment, 
-    // but here is a simple fetch that retry after unlock logic would normally handle.
-    // Real implementation usually relies on the widget's onStatus or intercepting fetches.
+    if (!gatewayRef.current) {
+      gatewayRef.current = createEvmGatewayUnlock(testResource, {
+        source: "creator-site",
+        accessPath: "/api/nibgate/access", // Matches the route we just created
+        unlockButton: "[data-nibgate-unlock]", // The CSS selector for our pay button
+        status: "[data-nibgate-status]", // The CSS selector for status updates
+        circleClientModuleUrl: 'https://esm.sh/@circle-fin/x402-batching@3/client',
+        onUnlock: () => {
+          handleFetchPremium();
+        }
+      });
+    }
   }, []);
 
   const handleFetchPremium = async () => {

@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./experience.css";
+import { SiteMotion } from "./site-motion";
+import { SharedHeader } from "./shared-header";
 
 export const metadata: Metadata = {
   title: "Nadon Klinton | Photographer & Filmmaker",
@@ -32,8 +35,12 @@ export default function RootLayout({
         ></script>
       </head>
       <body>
+        <SharedHeader /><SiteMotion />
         {children}
       </body>
     </html>
   );
 }
+
+
+

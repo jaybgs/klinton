@@ -1,15 +1,18 @@
+import nadonPhotos from "./nadon-photos.json";
+import { StoryMarquee, PhilosophyReveal, FloatingTitle } from "./scroll-typography";
+import { CollectionGallery, Reveal } from "./experience-ui";
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { BackToTop } from "./back-to-top";
 import { ContactActions, ContactIconLinks } from "./contact-actions";
-import { HeaderHeroState } from "./header-hero-state";
+
 import { HomeHeroCarousel } from "./home-hero-carousel";
 import { LoadingImage } from "./loading-image";
 import { MasonryGallery } from "./masonry-gallery";
 import { GatedGallery } from "./gated-gallery";
 import { PublishedContent, PublishedImage } from "./published-content";
-import { MobileSiteMenu, SiteNavLinks } from "./site-nav";
-import { WeddingListingGrid } from "./wedding-listing-grid";
+
+
 import {
   aboutImages,
   footerImages,
@@ -63,25 +66,25 @@ export const studioPortfolioCategories = [
     title: "Family",
     slug: "family",
     href: "/studios/family",
-    image: { src: images.studioProfile, alt: "Family studio portrait session" }
+    image: nadonPhotos[7]
   },
   {
     title: "Couples",
     slug: "couples",
     href: "/studios/couples",
-    image: { src: images.couple, alt: "Couple portrait session" }
+    image: nadonPhotos[6]
   },
   {
     title: "Birthdays",
     slug: "birthdays",
     href: "/studios/birthdays",
-    image: { src: images.studioBackdrop, alt: "Birthday studio photography session" }
+    image: nadonPhotos[8]
   },
   {
     title: "Portraits",
     slug: "portraits",
     href: "/studios/portraits",
-    image: { src: images.portrait, alt: "Portrait studio session" }
+    image: nadonPhotos[4]
   }
 ];
 
@@ -409,38 +412,6 @@ function QuoteIcon({ className = "" }: { className?: string }) {
   );
 }
 
-export function SiteHeader({ transparentOnHero = false }: { transparentOnHero?: boolean } = {}) {
-  return (
-    <>
-      {transparentOnHero ? <HeaderHeroState heroId="nadon-home-hero" /> : null}
-      <header className={`nadon-header${transparentOnHero ? " nadon-header--hero" : ""}`} id="si-sp">
-        <div className="nadon-canvas nadon-header-canvas">
-          <BrandLogo />
-          {transparentOnHero ? (
-            <>
-              <nav className="nadon-nav" aria-label="Primary navigation">
-                <div className="nadon-nav-canvas">
-                  <SiteNavLinks />
-                </div>
-              </nav>
-              <MobileSiteMenu />
-            </>
-          ) : (
-            <>
-              <nav className="nadon-nav nadon-nav--desktop" aria-label="Primary navigation">
-                <div className="nadon-nav-canvas">
-                  <SiteNavLinks />
-                </div>
-              </nav>
-              <MobileSiteMenu />
-            </>
-          )}
-        </div>
-      </header>
-      {transparentOnHero ? null : <div className="nadon-header-spacer" />}
-    </>
-  );
-}
 
 export function SiteSocialGrid() {
   return (
@@ -583,7 +554,7 @@ export function SiteFooter() {
   );
 }
 
-function SitePress() {
+export function SitePress() {
   return (
     <section className="nadon-press">
       <h3>Featured in</h3>
@@ -596,14 +567,14 @@ function SitePress() {
   );
 }
 
-function SiteTestimonial() {
+export function SiteTestimonial() {
   const carouselItems = [...testimonials, ...testimonials];
 
   return (
     <section className="nadon-testimonial" id="testimonials">
       <div className="nadon-testimonial-header">
         <p className="nadon-label">Client notes</p>
-        <h2>Kind words from honest celebrations</h2>
+        <FloatingTitle>Kind words from honest celebrations</FloatingTitle>
       </div>
       <div className="nadon-testimonial-window" aria-label="Client testimonials">
         <ul className="nadon-testimonial-track">
@@ -667,7 +638,7 @@ export function SiteWeddingGalleryPage({
 
   return (
     <>
-      <SiteHeader />
+
       <main className="nadon-page nadon-gallery-page">
         <div className="nadon-gallery-shell">
           <div className="nadon-gallery-content">
@@ -738,20 +709,16 @@ export function SiteHomePage({ publishedContent }: { publishedContent?: Publishe
 
   return (
     <>
-      <SiteHeader transparentOnHero />
+
       <main className="nadon-page">
         <HomeHeroCarousel images={heroImages} />
-        <section className="nadon-home-quote" aria-label="Wedding quote">
+        <Reveal><section className="nadon-home-quote" aria-label="Wedding quote">
           <QuoteIcon className="nadon-home-quote-icon" />
           <h2>MY PHILOSOPHY</h2>
-          <p>
-            A wedding outfit is more than just a garment, it depicts the personality of the couple.
-            This civil wedding styled shoot is a statement of style, personality and above all,
-            romance.
-          </p>
+          <PhilosophyReveal text="A wedding outfit is more than just a garment, it depicts the personality of the couple. This civil wedding styled shoot is a statement of style, personality and above all, romance." />
           <span>—NADON CLINTON</span>
         </section>
-        <section className="nadon-home-collage" aria-label="Featured photographs">
+        </Reveal><StoryMarquee /><Reveal><section className="nadon-home-collage" aria-label="Featured photographs">
           <MasonryGallery
             ariaLabel="Featured photographs"
             className="nadon-home-masonry"
@@ -759,8 +726,8 @@ export function SiteHomePage({ publishedContent }: { publishedContent?: Publishe
           />
         </section>
 
-        <SitePress />
-        <SiteTestimonial />
+        </Reveal><Reveal><SitePress /></Reveal>
+        <Reveal><SiteTestimonial /></Reveal>
       </main>
       <SiteFooter />
     </>
@@ -770,7 +737,7 @@ export function SiteHomePage({ publishedContent }: { publishedContent?: Publishe
 export function SiteAboutPage() {
   return (
     <>
-      <SiteHeader />
+
       <main className="nadon-page nadon-about-page">
         <SiteAboutBand />
         <SiteAboutFaqs />
@@ -802,14 +769,14 @@ export function SiteWeddingsPage({ publishedContent }: { publishedContent?: Publ
 
   return (
     <>
-      <SiteHeader />
+
       <main className="nadon-page nadon-weddings-page">
         <section className="nadon-weddings-title">
           <h1>Wedding Galleries</h1>
           <h3>Explore a few of my favourite weddings</h3>
         </section>
 
-        <WeddingListingGrid galleries={listingGalleries} />
+        <CollectionGallery items={listingGalleries.map(g=>({image:g.src,label:g.name,link:g.href,alt:g.name+" wedding photograph"}))} />
 
         <SiteTestimonial />
         <SitePress />
@@ -822,7 +789,7 @@ export function SiteWeddingsPage({ publishedContent }: { publishedContent?: Publ
 export function SiteContactPage() {
   return (
     <>
-      <SiteHeader />
+
       <main className="nadon-page nadon-contact-page">
         <section className="nadon-contact-layout">
           <LoadingImage
@@ -857,27 +824,14 @@ export function SiteStudiosPage({ publishedContent }: { publishedContent?: Publi
 
   return (
     <>
-      <SiteHeader />
+
       <main className="nadon-page nadon-studios-page">
         <section className="nadon-weddings-title nadon-studios-portfolio-title">
           <h1>studio galleries</h1>
           <h3>Explore family, couples, and birthday sessions</h3>
         </section>
 
-        <section className="nadon-studios-portfolio-grid" aria-label="Studio portfolio categories">
-          {studioPortfolioCategories.map((category, index) => {
-            const publishedStudio = publishedContent?.studioGalleries?.[index];
-            const imageSrc = publishedStudio?.coverImage?.src || category.image.src;
-
-            return (
-            <Link className="nadon-studios-portfolio-card" href={category.href} key={category.title}>
-              <LoadingImage src={imageSrc} alt={category.image.alt} />
-              <span>{category.title}</span>
-              <em>View Gallery</em>
-            </Link>
-            );
-          })}
-        </section>
+<CollectionGallery items={studioPortfolioCategories.map((category,index)=>({image:publishedContent?.studioGalleries?.[index]?.coverImage?.src || category.image.src,label:category.title,link:category.href,alt:category.image.alt}))}/>
       </main>
       <SiteFooter />
     </>
@@ -894,8 +848,9 @@ export function SiteStudioPortfolioGalleryPage({
   const studioPage = pages.find((page) => page.slug === "studios");
   const categoryIndex = studioPortfolioCategories.findIndex((item) => item.slug === category.slug);
   const publishedGalleryImages = publishedContent?.studioGalleries?.[categoryIndex]?.galleryImages?.filter((image) => image.src);
-  const baseImages = studioPage?.gallery ?? [];
-  const gallerySource = publishedGalleryImages?.length ? publishedGalleryImages : [...baseImages, ...baseImages, ...baseImages];
+  const selections = [[7,14,5,13,15],[6,3,13,15,16,2],[8,0,12,17,1],[4,9,17,1,11,12]];
+  const baseImages = (selections[categoryIndex] ?? selections[3]).map(i=>nadonPhotos[i]);
+  const gallerySource = publishedGalleryImages?.length ? publishedGalleryImages : baseImages;
   const galleryItems = gallerySource.map((image, index) => ({
     alt: `${category.title} studio photograph ${index + 1}`,
     aspectRatio: "aspectRatio" in image ? image.aspectRatio : undefined,
@@ -906,7 +861,7 @@ export function SiteStudioPortfolioGalleryPage({
 
   return (
     <>
-      <SiteHeader />
+
       <main className="nadon-page nadon-gallery-page">
         <div className="nadon-gallery-shell">
           <div className="nadon-gallery-content">
@@ -967,7 +922,7 @@ export function SiteLegalPage({
 }) {
   return (
     <>
-      <SiteHeader />
+
       <main className="nadon-page">
         <section className="nadon-legal-page">
           <p className="nadon-label">{site.name}</p>
@@ -985,7 +940,7 @@ export function SiteLegalPage({
 export function SiteInteriorPage({ page }: { page: PageContent }) {
   return (
     <>
-      <SiteHeader />
+
       <main className={`nadon-page nadon-interior nadon-${page.slug}`}>
         <section className="nadon-interior-hero">
           <div>
@@ -1031,3 +986,9 @@ export function SiteInteriorPage({ page }: { page: PageContent }) {
     </>
   );
 }
+
+
+
+
+
+

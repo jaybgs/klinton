@@ -113,3 +113,22 @@ img {
     transition-duration: 1ms !important;
   }
 }
+
+/* Consistent rounded surfaces across the photography site. */
+:root { --nadon-surface-radius: 15px; }
+.nadon-page :is(.nadon-loading-image, .nadon-masonry-item, .nadon-wedding-gallery-image, .nadon-studios-portfolio-card, .nadon-contact-image, .nadon-testimonial-card, .nadon-interior-hero, .nadon-weddings-title, .nadon-about-band, .nadon-gallery-story, .nadon-contact-panel, .nadon-feature, .nadon-details > article, .nadon-about-faq) {
+  border-radius: var(--nadon-surface-radius);
+}
+.nadon-page :is(.nadon-masonry-item, .nadon-wedding-gallery-image, .nadon-studios-portfolio-card, .nadon-contact-image, .nadon-interior-hero) {
+  overflow: hidden;
+}
+.nadon-page :is(input, select, textarea, .nadon-contact-submit, .nadon-about-cta, .nadon-view-gallery) {
+  border-radius: var(--nadon-surface-radius);
+}
+.nadon-social-grid img { border-radius: var(--nadon-surface-radius); }
+.nadon-page .nadon-testimonial-card-top img { border-radius: 50%; }
+.nadon-press img { border-radius: 0; }
+
+.nadon-home-restored { background: #f2f0e9; padding-top: 28px; }
+
+

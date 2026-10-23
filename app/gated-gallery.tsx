@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { setupResourcePage, trackResourcePage, createOnchainRating } from "@nibgate/sdk";
+import { useEffect, useState, useRef } from "react";
+import { createEvmGatewayUnlock, trackResourcePage, createOnchainRating } from "@nibgate/sdk";
 import { MasonryGallery } from "./masonry-gallery";
 import { PublishedImage } from "./published-content";
 
@@ -19,28 +19,37 @@ type Props = {
 export function GatedGallery({ resourceId, resourceTitle, resourcePath, price, fallbackImages, ariaLabel, isRated, recipient }: Props) {
   const [images, setImages] = useState<PublishedImage[]>(fallbackImages);
   const [locked, setLocked] = useState(true);
+  const gatewayRef = useRef<any>(null);
 
   useEffect(() => {
     const resource = {
       id: resourceId,
       title: resourceTitle,
-      type: "gallery",
+      type: "image",
+      imageUrl: fallbackImages?.[0]?.src,
       price,
       currency: "USDC",
       recipient: recipient || "0x0000000000000000000000000000000000000000",
       path: resourcePath,
       url: `${window.location.origin}${resourcePath}`,
       access: { humans: "paid" as const, agents: "paid" as const },
-      unlock: { mode: "one_time" }
+      unlock: { mode: "one_time" as const }
     };
 
     trackResourcePage(resource, { source: "creator-site" });
-    setupResourcePage(resource, {
-      source: "creator-site",
-      accessPath: `/api/nibgate/access?path=${resourcePath}`,
-      button: "[data-nibgate-unlock]",
-      status: "[data-nibgate-status]"
-    });
+
+    if (!gatewayRef.current) {
+      gatewayRef.current = createEvmGatewayUnlock(resource, {
+        source: "creator-site",
+        accessPath: `/api/nibgate/access?path=${resourcePath}`,
+        unlockButton: "[data-nibgate-unlock]",
+        status: "[data-nibgate-status]",
+        circleClientModuleUrl: 'https://esm.sh/@circle-fin/x402-batching@3/client',
+        onUnlock: () => {
+          loadContent();
+        }
+      });
+    }
 
     const checkAccess = async () => {
       try {
@@ -57,21 +66,22 @@ export function GatedGallery({ resourceId, resourceTitle, resourcePath, price, f
       }
     };
     checkAccess();
-  }, [resourceId, resourceTitle, resourcePath, price, recipient]);
+  }, [resourceId, resourceTitle, resourcePath, price, recipient, fallbackImages]);
 
   useEffect(() => {
     if (!locked && isRated) {
       const resource = {
         id: resourceId,
         title: resourceTitle,
-        type: "gallery",
+        type: "image",
+        imageUrl: fallbackImages?.[0]?.src,
         price,
         currency: "USDC",
         recipient: recipient || "0x0000000000000000000000000000000000000000",
         path: resourcePath,
         url: `${window.location.origin}${resourcePath}`,
         access: { humans: "paid" as const, agents: "paid" as const },
-        unlock: { mode: "one_time" }
+        unlock: { mode: "one_time" as const }
       };
       
       createOnchainRating(resource, {
@@ -79,7 +89,7 @@ export function GatedGallery({ resourceId, resourceTitle, resourcePath, price, f
         autoMount: true
       });
     }
-  }, [locked, isRated, resourceId, resourceTitle, resourcePath, price, recipient]);
+  }, [locked, isRated, resourceId, resourceTitle, resourcePath, price, recipient, fallbackImages]);
 
   const loadContent = async () => {
     try {

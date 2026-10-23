@@ -96,8 +96,29 @@ function buildJustifiedRows(
   return rows;
 }
 
-export function MasonryGallery({ ariaLabel, className = "", items }: MasonryGalleryProps) {
+export function MasonryGallery({ ariaLabel, className = "", items: sourceItems }: MasonryGalleryProps) {
+  const [mobile,setMobile]=useState(false);
+  const items=useMemo(()=>mobile && className.includes('nadon-home-masonry') ? sourceItems.slice(0,Math.ceil(sourceItems.length/2)) : sourceItems,[sourceItems,mobile,className]);
+  useEffect(()=>{
+    const media=window.matchMedia('(max-width:640px)');
+    const update=()=>{setMobile(media.matches);setSelected(null);};
+    update();media.addEventListener('change',update);
+    return()=>media.removeEventListener('change',update);
+  },[]);
   const galleryRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [selected,setSelected]=useState<number|null>(null);
+  const lastTrigger=useRef<HTMLButtonElement|null>(null);
+  useEffect(()=>{
+    if(selected===null)return;
+    const dialog=dialogRef.current;if(!dialog)return;
+    dialog.showModal();
+    const previousOverflow=document.body.style.overflow;
+    document.body.style.overflow="hidden";
+    return()=>{dialog.close();document.body.style.overflow=previousOverflow;lastTrigger.current?.focus({preventScroll:true});};
+  },[selected!==null]);
+  const close=()=>setSelected(null);
+  const move=(offset:number)=>setSelected(current=>current===null?null:(current+offset+items.length)%items.length);
   const [containerWidth, setContainerWidth] = useState(0);
   const [ratios, setRatios] = useState<Record<string, number>>({});
   const indexedItems = useMemo(() => items.map((item, index) => ({ ...item, index })), [items]);
@@ -233,13 +254,17 @@ export function MasonryGallery({ ariaLabel, className = "", items }: MasonryGall
             }
 
             return (
-              <span className="nadon-masonry-item" key={`${item.src}-${item.index}`} style={itemStyle}>
+              <button type="button" aria-label={"View "+item.alt} onClick={e=>{lastTrigger.current=e.currentTarget;setSelected(item.index)}} className="nadon-masonry-item nadon-photo-button" key={`${item.src}-${item.index}`} style={itemStyle}>
                 {image}
-              </span>
+                </button>
             );
           })}
         </div>
       ))}
-    </div>
+      <dialog className="nadon-lightbox" ref={dialogRef} aria-label="Photograph viewer" onCancel={close} onClick={e=>{if(e.target===e.currentTarget)close()}} onKeyDown={e=>{if(e.key==="ArrowRight"){e.preventDefault();move(1)}if(e.key==="ArrowLeft"){e.preventDefault();move(-1)}}}>
+        {selected!==null&&<><header><span>NADON KLINTON / SELECTED FRAME</span><button type="button" autoFocus onClick={close}>Close</button></header><figure><img key={items[selected].src} src={items[selected].src} alt={items[selected].alt}/><figcaption>{items[selected].alt}</figcaption></figure><footer><button type="button" onClick={()=>move(-1)}>Previous</button><span aria-live="polite">{selected+1} / {items.length}</span><button type="button" onClick={()=>move(1)}>Next</button></footer></>}
+      </dialog>    </div>
   );
 }
+
+

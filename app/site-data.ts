@@ -1,3 +1,4 @@
+import nadonPhotos from "./nadon-photos.json";
 export type GalleryImage = {
   src: string;
   alt: string;
@@ -76,27 +77,7 @@ export const images = {
     "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=82"
 };
 
-export const homeImages = [
-  { className: "nadon-home-image nadon-home-image-a", src: images.weddingWalk, alt: "Editorial wedding scene" },
-  { className: "nadon-home-image nadon-home-image-b", src: images.veil, alt: "Editorial city wedding portrait" },
-  { className: "nadon-home-image nadon-home-image-c", src: images.balconyCouple, alt: "Wedding portrait" },
-  { className: "nadon-home-image nadon-home-image-d", src: images.weddingDetail, alt: "Wedding detail" },
-  { className: "nadon-home-image nadon-home-image-e", src: images.bridalProfile, alt: "Editorial wedding scene" },
-  { className: "nadon-home-image nadon-home-image-f", src: images.receptionMoment, alt: "Wedding celebration" },
-  { className: "nadon-home-image nadon-home-image-g", src: images.table, alt: "Reception atmosphere" },
-  { className: "nadon-home-image nadon-home-image-h", src: images.bouquet, alt: "Portrait in natural light" },
-  { className: "nadon-home-image nadon-home-image-i", src: images.camera, alt: "Wedding champagne tower" },
-  { className: "nadon-home-image nadon-home-image-j", src: images.weddingGuests, alt: "Wedding guests" },
-  { className: "nadon-home-image nadon-home-image-k", src: images.editorialDetail, alt: "Wedding portrait detail" },
-  { className: "nadon-home-image nadon-home-image-l", src: images.editorial, alt: "French Riviera wedding" },
-  { className: "nadon-home-image nadon-home-image-m", src: images.dinner, alt: "Reception editorial scene" },
-  { className: "nadon-home-image nadon-home-image-n", src: images.rings, alt: "Wedding details" },
-  { className: "nadon-home-image nadon-home-image-o", src: images.couple, alt: "Couple portrait" },
-  { className: "nadon-home-image nadon-home-image-p", src: images.bride, alt: "Bridal portrait" },
-  { className: "nadon-home-image nadon-home-image-q", src: images.ceremonyMoment, alt: "Editorial wedding moment" },
-  { className: "nadon-home-image nadon-home-image-r", src: images.portrait, alt: "Portrait" }
-];
-
+export const homeImages = nadonPhotos.map((photo,index)=>({...photo,className:"nadon-home-image nadon-home-image-"+index}));
 export const aboutImages = [
   { className: "nadon-about-image-1", src: images.aboutBackdrop, alt: "" },
   { className: "nadon-about-image-2", src: images.bridalProfile, alt: "" },
@@ -151,29 +132,7 @@ export const testimonials = [
   }
 ];
 
-export const footerImages = [
-  "https://static.showit.co/222/JpTvSAS2D2-rabbUZDAI5Q/shared/taylorluke_spedits-20.jpg",
-  "https://static.showit.co/222/lk9N47yD_y4Vly9_4ldyQw/shared/moniquealex_spedits-73.jpg",
-  "https://static.showit.co/222/Ud3IFL5Zj2XvqGf-9DSDfw/shared/photo_24-9-2022_4_49_59_pm.jpg",
-  "https://static.showit.co/222/MXqomReihiWWN-G5ZBNFnQ/shared/9685257238_jpg_exif1.jpg",
-  "https://static.showit.co/222/oIqIvLG5m67PbJiQEYj9SQ/shared/laurennate_spedits-121.jpg",
-  "https://static.showit.co/222/bz76bQ4SIzxNsbPgnT4a3Q/shared/laurennate_spedits-185.jpg",
-  "https://static.showit.co/222/_Zk2M_g9WPS_00qTw6Bq4g/shared/photo_3-8-2023_1_01_36_pm.jpg",
-  "https://static.showit.co/222/H8aG8FvrJ0ANpo9xA6wFmQ/shared/website-3.jpg",
-  "https://static.showit.co/222/FuQIsZDMe9VV85W7dbvv1A/shared/jordanasam_spedits-29.jpg",
-  "https://static.showit.co/222/H9jAK-pudNz4TCV664ZmSQ/shared/website-5.jpg",
-  "https://static.showit.co/222/HPtNGsah-eh_6YL3CjrWhQ/shared/helenawill_finals_daytwo-505.jpg",
-  "https://static.showit.co/222/TXU58BfWWb3c7PFoQ3RALg/shared/lerosejune25edits-122.jpg",
-  "https://static.showit.co/222/wdtQplhQPWYq1ksqvd1DzA/shared/lerose0909_finals-431.jpg",
-  "https://static.showit.co/222/hZ0W15Tcs0NR18rEXt9xhg/shared/charliescott_spedits-29.jpg",
-  "https://static.showit.co/222/UCBN_waU8D7G_Sryms2Tww/shared/laurennate_spedits-12.jpg",
-  "https://static.showit.co/222/z-isKM5uiY64K2SE66-C3g/shared/photo_3-8-2023_1_01_40_pm.jpg",
-  "https://static.showit.co/222/82nWWl9xlqEPN2jpqK5v3A/shared/photo_3-8-2023_1_01_43_pm.jpg",
-  "https://static.showit.co/222/qdxhj3tEaQvh39nBICMnVA/shared/photo_4-3-2022_4_33_33_pm.jpg",
-  "https://static.showit.co/222/BNGxmKBhPXq9v-z_Du8SpQ/shared/adelleross_finals-56.jpg",
-  "https://static.showit.co/222/etgeu6TkzCJSdi2hCPJ5eA/shared/reedit-5.jpg"
-];
-
+export const footerImages = [...nadonPhotos,...nadonPhotos].map(photo=>photo.src);
 export const pressLogos = [
   {
     src: "/images/bellanaija-weddings-logo.png",
@@ -396,3 +355,4 @@ export const home: PageContent = {
   ],
   cta: "Begin your enquiry"
 };
+
