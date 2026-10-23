@@ -5,16 +5,33 @@ import { ImgHTMLAttributes, SyntheticEvent, useEffect, useRef, useState } from "
 
 type LoadingImageProps = ImgHTMLAttributes<HTMLImageElement>;
 
+// Global in-memory cache to prevent re-flashing skeleton for already loaded images
+const loadedSourcesCache = new Set<string>();
+
 export function LoadingImage({ className = "", onLoad, src, ...props }: LoadingImageProps) {
   const imageRef = useRef<HTMLImageElement>(null);
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(() => {
+    if (typeof src === "string" && loadedSourcesCache.has(src)) {
+      return true;
+    }
+    return false;
+  });
 
   useEffect(() => {
+    if (typeof src === "string" && loadedSourcesCache.has(src)) {
+      setLoaded(true);
+      return;
+    }
+
     const image = imageRef.current;
-    setLoaded(Boolean(image?.complete && image.naturalWidth > 0));
+    if (image?.complete && image.naturalWidth > 0) {
+      if (typeof src === "string") loadedSourcesCache.add(src);
+      setLoaded(true);
+    }
   }, [src]);
 
   function handleLoad(event: SyntheticEvent<HTMLImageElement>) {
+    if (typeof src === "string") loadedSourcesCache.add(src);
     setLoaded(true);
     onLoad?.(event);
   }

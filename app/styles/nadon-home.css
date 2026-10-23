@@ -18,11 +18,20 @@
   opacity: 0;
   transform: scale(1.02);
   transition: opacity 900ms ease, transform 5200ms ease;
+  background-color: transparent !important;
+  background-image: none !important;
+  animation: none !important;
+}
+
+.nadon-home-hero-image[data-previous="true"] {
+  opacity: 1;
+  z-index: 1;
 }
 
 .nadon-home-hero-image[data-active="true"] {
   opacity: 1;
   transform: scale(1);
+  z-index: 2;
 }
 
 .nadon-home-hero::after {

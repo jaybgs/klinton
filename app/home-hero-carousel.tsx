@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { LoadingImage } from "./loading-image";
 import { homeImages, site } from "./site-data";
 
@@ -12,13 +12,13 @@ function getHeroQualitySrc(src: string) {
   }
 
   if (src.includes("static.showit.co/")) {
-    return src.replace(/static\.showit\.co\/(?:222|400|800|1200|1600)\//, "static.showit.co/2400/");
+    return src.replace(/static\.showit\.co\/(?:222|400|800|1200|1600)\//, "static.showit.co/1600/");
   }
 
   if (src.includes("images.unsplash.com/")) {
     const url = new URL(src);
-    url.searchParams.set("w", "2400");
-    url.searchParams.set("q", "90");
+    url.searchParams.set("w", "1600");
+    url.searchParams.set("q", "85");
     return url.toString();
   }
 
@@ -33,24 +33,46 @@ export function HomeHeroCarousel({
     src: string;
   }[];
 }) {
-  const heroImages = images?.length ? images : [homeImages[3], homeImages[4], homeImages[15], homeImages[2], homeImages[16]];
+  const heroImages = images?.length
+    ? images
+    : [homeImages[3], homeImages[4], homeImages[15], homeImages[2], homeImages[16]];
+
   const [activeIndex, setActiveIndex] = useState(0);
-  const previousIndex = () => setActiveIndex((index) => (index - 1 + heroImages.length) % heroImages.length);
-  const nextIndex = () => setActiveIndex((index) => (index + 1) % heroImages.length);
+  const [previousIndex, setPreviousIndex] = useState(0);
+
+  // Preload and decode all hero images immediately on mount so transitions are instant
+  useEffect(() => {
+    heroImages.forEach((image) => {
+      const src = getHeroQualitySrc(image.src);
+      const img = new Image();
+      img.src = src;
+      if ("decode" in img) {
+        img.decode().catch(() => {});
+      }
+    });
+  }, [heroImages]);
+
+  const goToNext = () => {
+    setPreviousIndex(activeIndex);
+    setActiveIndex((current) => (current + 1) % heroImages.length);
+  };
+
+  const goToPrevious = () => {
+    setPreviousIndex(activeIndex);
+    setActiveIndex((current) => (current - 1 + heroImages.length) % heroImages.length);
+  };
 
   useEffect(() => {
-    const timer = window.setInterval(() => {
-      nextIndex();
-    }, 5200);
-
+    const timer = window.setInterval(goToNext, 5200);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [activeIndex, heroImages.length]);
 
   return (
     <section className="nadon-home-hero" id="nadon-home-hero" aria-label="Featured wedding images">
       <div className="nadon-home-hero-track">
         {heroImages.map((image, index) => {
           const isActive = index === activeIndex;
+          const isPrev = index === previousIndex && !isActive;
 
           return (
             <LoadingImage
@@ -58,10 +80,11 @@ export function HomeHeroCarousel({
               aria-hidden={isActive ? undefined : "true"}
               className="nadon-home-hero-image"
               data-active={isActive ? "true" : "false"}
-              decoding={isActive ? "sync" : "async"}
+              data-previous={isPrev ? "true" : "false"}
+              decoding="async"
               fetchPriority={index === 0 ? "high" : "auto"}
               key={`${image.src}-${index}`}
-              loading={index === 0 ? "eager" : "lazy"}
+              loading="eager"
               src={getHeroQualitySrc(image.src)}
             />
           );
@@ -75,7 +98,7 @@ export function HomeHeroCarousel({
         className="nadon-home-hero-arrow nadon-home-hero-arrow-left"
         type="button"
         aria-label="Previous hero image"
-        onClick={previousIndex}
+        onClick={goToPrevious}
       >
         <svg viewBox="0 0 88 24" aria-hidden="true">
           <path d="M88 12H5" />
@@ -86,7 +109,7 @@ export function HomeHeroCarousel({
         className="nadon-home-hero-arrow nadon-home-hero-arrow-right"
         type="button"
         aria-label="Next hero image"
-        onClick={nextIndex}
+        onClick={goToNext}
       >
         <svg viewBox="0 0 88 24" aria-hidden="true">
           <path d="M0 12h83" />
@@ -96,4 +119,3 @@ export function HomeHeroCarousel({
     </section>
   );
 }
-

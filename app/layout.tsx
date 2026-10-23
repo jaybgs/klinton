@@ -3,6 +3,7 @@ import "./globals.css";
 import "./experience.css";
 import { SiteMotion } from "./site-motion";
 import { SharedHeader } from "./shared-header";
+import { ImageCacheRegister } from "./image-cache-register";
 
 export const metadata: Metadata = {
   title: "Nadon Klinton | Photographer & Filmmaker",
@@ -15,8 +16,6 @@ export const metadata: Metadata = {
     type: "website"
   }
 };
-
-import Script from "next/script";
 
 export default function RootLayout({
   children
@@ -35,12 +34,11 @@ export default function RootLayout({
         ></script>
       </head>
       <body>
-        <SharedHeader /><SiteMotion />
+        <ImageCacheRegister />
+        <SharedHeader />
+        <SiteMotion />
         {children}
       </body>
     </html>
   );
 }
-
-
-

@@ -685,13 +685,18 @@ export function SiteWeddingGalleryPage({
 export function SiteHomePage({ publishedContent }: { publishedContent?: PublishedContent | null }) {
   const publishedHomeImages = publishedContent?.homeGalleryImages?.filter((image) => image.src) ?? [];
   const homeGallerySource = publishedHomeImages.length > 0 ? publishedHomeImages : homeImages;
-  const homeGalleryItems = homeGallerySource.map((image, index) => ({
-    alt: "alt" in image ? image.alt : `Published homepage photograph ${index + 1}`,
-    aspectRatio: "aspectRatio" in image ? image.aspectRatio : undefined,
-    height: "height" in image ? image.height : undefined,
-    src: image.src,
-    width: "width" in image ? image.width : undefined
-  }));
+  const homeGalleryItems = homeGallerySource.map((image, index) => {
+    const w = "width" in image ? image.width : undefined;
+    const h = "height" in image ? image.height : undefined;
+    const ratio = "aspectRatio" in image && image.aspectRatio ? image.aspectRatio : (w && h ? w / h : undefined);
+    return {
+      alt: "alt" in image ? image.alt : `Published homepage photograph ${index + 1}`,
+      aspectRatio: ratio,
+      height: h,
+      src: image.src,
+      width: w
+    };
+  });
   const publishedHeroImages = publishedContent?.homeCarouselImages?.filter((image) => image.src) ?? [];
   const heroImages = publishedHeroImages.length > 0 ? publishedHeroImages : undefined;
 
